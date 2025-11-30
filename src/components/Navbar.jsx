@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { FaSun, FaMoon, FaDownload, FaBars, FaTimes } from "react-icons/fa";
+import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
+import { FaSun, FaMoon, FaDownload, FaBars, FaTimes, FaGithub, FaLinkedin } from "react-icons/fa";
 import { useTheme } from "./themeContext";
 
 const Navbar = () => {
@@ -9,16 +9,12 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const { theme, toggleTheme } = useTheme();
 
-  // Track scroll position for navbar styling
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Navigation items
   const navItems = React.useMemo(
     () => [
       { name: "Home", href: "#home", id: "home" },
@@ -31,32 +27,20 @@ const Navbar = () => {
     []
   );
 
-  // Handle smooth scrolling
   const handleNavClick = (e, href) => {
     e.preventDefault();
-    const targetId = href.substring(1);
-    const targetElement = document.getElementById(targetId);
-
-    if (targetElement) {
-      targetElement.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
-
+    const id = href.substring(1);
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     setIsOpen(false);
   };
 
-  // Track active section based on scroll position
   useEffect(() => {
     const handleScroll = () => {
-      const sections = navItems.map((item) => item.id);
-      const scrollPosition = window.scrollY + 100;
-
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const section = document.getElementById(sections[i]);
-        if (section && section.offsetTop <= scrollPosition) {
-          setActiveSection(sections[i]);
+      const scrollPos = window.scrollY + 120;
+      for (let i = navItems.length - 1; i >= 0; i--) {
+        const section = document.getElementById(navItems[i].id);
+        if (section && section.offsetTop <= scrollPos) {
+          setActiveSection(navItems[i].id);
           break;
         }
       }
@@ -64,133 +48,162 @@ const Navbar = () => {
 
     window.addEventListener("scroll", handleScroll);
     handleScroll();
-
     return () => window.removeEventListener("scroll", handleScroll);
   }, [navItems]);
 
   return (
     <motion.nav
       id="NavBar"
+      layout
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
-      className={`fixed top-4 left-8 m-auto transform -translate-x-1/2 w-[95vw] max-w-7xl h-16 px-4 backdrop-blur-xl border rounded-2xl flex justify-center items-center z-50 transition-all duration-500 ${
-        scrolled 
-          ? "bg-black/40 border-white/30 shadow-2xl shadow-black/20" 
-          : "bg-black/20 border-white/20"
-      } ${
-        theme === "dark" 
-          ? "bg-black/20 border-white/20" 
-          : "bg-white/20 border-black/20"
-      }`}
+      className={`fixed top-4 inset-x-0 mx-auto
+        w-3/4 max-w-5xl h-16 px-4
+        backdrop-blur-xl border rounded-2xl
+        flex justify-center items-center
+        z-50 transition-all duration-500
+        ${scrolled ? "shadow-2xl shadow-black/20" : ""}
+        ${theme === "dark"
+          ? "bg-black/30 border-white/20"
+          : "bg-white/30 border-black/20"
+        }
+`}
     >
-      <div className="flex w-full justify-between items-center max-w-6xl mx-auto">
+      <div className="w-full flex items-center justify-between gap-6">
+
         {/* Logo */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
           className="flex-shrink-0"
         >
           <motion.a
             href="#home"
             onClick={(e) => handleNavClick(e, "#home")}
-            className="text-2xl font-bold font-michroma text-yellow-500 hover:text-yellow-400 transition-all duration-300 relative group"
+            className="text-2xl font-bold font-michroma text-yellow-500"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
           >
-            <span className="relative z-10">PK</span>
-            <motion.div
-              className="absolute inset-0 bg-brand-yellow/20 rounded-lg -z-10"
-              initial={{ scale: 0 }}
-              whileHover={{ scale: 1 }}
-              transition={{ duration: 0.2 }}
-            />
+            {/* <img src="/assets/character.svg" alt="Logo" className="h-10" /> */}
+            PK
           </motion.a>
         </motion.div>
 
-        {/* Desktop Navigation - Centered */}
-        <div className="hidden lg:flex items-center space-x-8 absolute left-1/2 transform -translate-x-1/2">
-          {navItems.map((item, index) => (
-            <motion.a
-              key={item.name}
-              href={item.href}
-              onClick={(e) => handleNavClick(e, item.href)}
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 group ${
-                activeSection === item.id
-                  ? "text-yellow-400"
-                  : theme === "dark"
-                  ? "text-white hover:text-white"
-                  : "text-gray-700 hover:text-black"
-              }`}
-              whileHover={{ y: -2 }}
-            >
-              {item.name}
-              <motion.span
-                className={`absolute bottom-0 left-0 w-full h-0.5 bg-yellow-400  transform origin-left transition-transform duration-300 ${
+        {/* Desktop Nav */}
+        <LayoutGroup>
+          <div className="hidden lg:flex items-center gap-6">
+            {navItems.map((item, index) => (
+              <motion.a
+                key={item.name}
+                href={item.href}
+                onClick={(e) => handleNavClick(e, item.href)}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                whileHover={{ y: -2 }}
+                className={`relative px-3 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                   activeSection === item.id
-                    ? "scale-x-100"
-                    : "scale-x-0 group-hover:scale-x-100"
+                    ? "text-yellow-300"
+                    : theme === "dark"
+                    ? "text-white hover:bg-white/10"
+                    : "text-gray-700 hover:bg-black/10"
                 }`}
-              />
-              <motion.div
-                className="absolute inset-0 bg-brand-yellow/10 rounded-lg -z-10"
-                initial={{ scale: 0 }}
-                whileHover={{ scale: 1 }}
-                transition={{ duration: 0.2 }}
-              />
-            </motion.a>
-          ))}
-        </div>
+              >
+                <span className="relative z-10">{item.name}</span>
+                {activeSection === item.id && (
+                  <motion.div
+                    layoutId="active-pill"
+                    className="absolute inset-0 bg-yellow-400/20 rounded-full"
+                    transition={{ duration: 0.6, type: "spring", bounce: 0.2 }}
+                  />
+                )}
+              </motion.a>
+            ))}
+          </div>
+        </LayoutGroup>
 
-        {/* Right side buttons */}
-        <div className="flex items-center space-x-3">
-          {/* Theme Toggle */}
+        {/* Right side */}
+        <div className="flex items-center gap-3">
+          {/* Theme toggle */}
           <motion.button
-            className={`p-3 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-brand-yellow/30 ${
-              theme === "dark" 
-                ? "bg-white/10 text-yellow-400 hover:bg-white/20" 
-                : "bg-black/10 text-yellow-600 hover:bg-black/20"
-            }`}
-            aria-label="Toggle theme"
             onClick={toggleTheme}
             whileHover={{ scale: 1.1, rotate: 180 }}
             whileTap={{ scale: 0.9 }}
+            className={`p-3 rounded-xl transition-all duration-300 ${
+              theme === "dark"
+                ? "bg-white/10 text-yellow-400 hover:bg-white/20"
+                : "bg-black/10 text-yellow-600 hover:bg-black/20"
+            }`}
           >
-            {theme === "dark" ? <FaSun className="w-4 h-4" /> : <FaMoon className="w-4 h-4" />}
+            {theme === "dark" ? <FaSun /> : <FaMoon />}
           </motion.button>
 
-          {/* Resume Button */}
+          {/* GitHub */}
           <motion.a
-            href="/assets/Pavan_Kalyan_Kayarkar_Resume.pdf"
+            href="https://github.com/kayarkar007"
+            target="_blank"
+            rel="noopener noreferrer"
+            whileHover={{ scale: 1.1 }}
+            className={`p-3 rounded-xl transition-all duration-300 ${
+              theme === "dark"
+                ? "bg-white/10 text-white hover:bg-white/20"
+                : "bg-black/10 text-gray-700 hover:bg-black/20"
+            }`}
+          >
+            <FaGithub />
+          </motion.a>
+
+          {/* LinkedIn */}
+          <motion.a
+            href="https://www.linkedin.com/in/pavankalyan-dev"
+            target="_blank"
+            rel="noopener noreferrer"
+            whileHover={{ scale: 1.1 }}
+            className={`p-3 rounded-xl transition-all duration-300 ${
+              theme === "dark"
+                ? "bg-white/10 text-white hover:bg-white/20"
+                : "bg-black/10 text-gray-700 hover:bg-black/20"
+            }`}
+          >
+            <FaLinkedin />
+          </motion.a>
+
+          {/* Resume */}
+          <motion.a
+            href="/assets/PAVAN_KALYAN_KAYARKAR-RESUME.pdf"
             download="Pavan_Kalyan_Kayarkar_Resume.pdf"
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
-            className={`px-4 py-2 rounded-xl font-medium transition-all duration-300 flex items-center gap-2 ${
-              theme === "dark"
-                ? "bg-brand-yellow text-white hover:bg-yellow-400 hover:text-black shadow-glow"
-                : "bg-brand-yellow text-black hover:bg-yellow-400 shadow-lg"
-            }`}
-            aria-label="Download Resume"
+            className="px-4 py-2 rounded-xl font-medium bg-brand-yellow text-black hover:bg-yellow-400 shadow-lg"
           >
-            <FaDownload className="w-3 h-3" />
-            <span className="hidden sm:inline">Resume</span>
+            <FaDownload
+  className={`inline-block w-3 h-3 ${
+    theme === "dark" ? "text-white group-hover:text-black" : "text-black"
+  }` }
+/>
+
+           <span
+  className={`hidden sm:inline ml-2 ${
+    theme === "dark" ? "text-white" : "text-black"
+  } hover:text-black active:text-black`}
+>
+  My Resume
+</span>
+
+
           </motion.a>
 
           {/* Mobile menu button */}
           <motion.button
             onClick={() => setIsOpen(!isOpen)}
-            className={`lg:hidden p-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-brand-yellow/30 ${
-              theme === "dark" 
-                ? "text-gray-300 hover:text-white hover:bg-white/10" 
-                : "text-gray-700 hover:text-black hover:bg-black/10"
-            }`}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            aria-expanded={isOpen}
+            className={`lg:hidden p-2 rounded-xl transition-all ${
+              theme === "dark"
+                ? "text-gray-300 hover:text-white hover:bg-white/10"
+                : "text-gray-700 hover:text-black hover:bg-black/10"
+            }`}
           >
             <AnimatePresence mode="wait">
               {!isOpen ? (
@@ -198,20 +211,16 @@ const Navbar = () => {
                   key="menu"
                   initial={{ rotate: -90, opacity: 0 }}
                   animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: 90, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
                 >
-                  <FaBars className="w-5 h-5" />
+                  <FaBars />
                 </motion.div>
               ) : (
                 <motion.div
                   key="close"
                   initial={{ rotate: 90, opacity: 0 }}
                   animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: -90, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
                 >
-                  <FaTimes className="w-5 h-5" />
+                  <FaTimes />
                 </motion.div>
               )}
             </AnimatePresence>
@@ -219,7 +228,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Navigation Menu */}
+      {/* Mobile Menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -227,10 +236,10 @@ const Navbar = () => {
             animate={{ opacity: 1, height: "auto", y: 0 }}
             exit={{ opacity: 0, height: 0, y: -20 }}
             transition={{ duration: 0.3 }}
-            className="absolute top-full left-0 right-0 mt-4 p-4 rounded-2xl backdrop-blur-xl border overflow-hidden lg:hidden"
+            className="absolute top-full left-0 right-0 mt-4 p-4 rounded-2xl backdrop-blur-xl border lg:hidden"
             style={{
               background: theme === "dark" ? "rgba(0,0,0,0.95)" : "rgba(255,255,255,0.95)",
-              borderColor: theme === "dark" ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.2)",
+              borderColor: theme === "dark" ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.2)"
             }}
           >
             <div className="space-y-2">
@@ -242,14 +251,14 @@ const Navbar = () => {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.3, delay: index * 0.1 }}
-                  className={`block px-4 py-3 rounded-xl text-base font-medium transition-all duration-300 ${
+                  whileHover={{ x: 10 }}
+                  className={`block px-4 py-3 rounded-xl text-base font-medium ${
                     activeSection === item.id
                       ? "text-brand-yellow bg-brand-yellow/10"
                       : theme === "dark"
                       ? "text-gray-300 hover:text-white hover:bg-white/10"
                       : "text-gray-700 hover:text-black hover:bg-black/10"
                   }`}
-                  whileHover={{ x: 10 }}
                 >
                   {item.name}
                 </motion.a>
