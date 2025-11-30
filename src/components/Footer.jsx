@@ -33,7 +33,9 @@ const Footer = () => {
       }`}
       style={{
         boxShadow:
-          theme === "dark" ? "0 -2px 32px 0 #0008" : "0 -2px 32px 0 #ffc30022",
+          theme === "dark"
+            ? "0 -2px 32px 0 #0008"
+            : "0 -2px 32px 0 rgba(255, 195, 0, 0.13)",
       }}
     >
       {/* Animated SVG Wave Top Border */}
@@ -84,7 +86,7 @@ const Footer = () => {
           >
             Designed & built with{" "}
             <FaHeart className="inline text-red-500 mx-1 animate-pulse" /> by{" "}
-            <span className="text-[#ffc300] font-semibold">
+            <span className="text-brand-yellow font-michroma">
               Pavan Kalyan Kayarkar
             </span>
           </p>
@@ -107,8 +109,8 @@ const Footer = () => {
               rel="noopener noreferrer"
               className={`group relative transition-colors duration-200 ${
                 theme === "dark"
-                  ? "text-gray-400 hover:text-[#ffc300]"
-                  : "text-gray-700 hover:text-[#ffc300]"
+                  ? "text-gray-400 hover:text-brand-yellow"
+                  : "text-gray-700 hover:text-brand-yellow"
               }`}
               aria-label={name}
               whileHover={{ scale: 1.2, rotate: -8 }}

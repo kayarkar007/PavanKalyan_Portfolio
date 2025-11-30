@@ -161,7 +161,7 @@ const Home = () => {
         <div className="flex flex-col items-center gap-4 sm:gap-6 md:gap-8 max-w-6xl mx-auto w-full">
           {/* Character Image + Name */}
           <div className="flex flex-col items-center w-full">
-            <h1 className="relative font-poppins font-bold leading-tight text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl z-10 w-full">
+            <h1 className="name-heading relative font-poppins font-bold leading-tight text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl z-10 w-full">
               <FloatingTag
                 text="I'm a"
                 highlight="React Developer"
