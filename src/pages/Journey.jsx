@@ -159,10 +159,10 @@ const TimelineItem = ({ item, index, isVisible, ClassName }) => {
               {item.icon}
             </div>
             <div>
-              <h3 className="TimeLineTitle text-xl font-semibold text-white max320:text-[1rem]  ">
+              <h3 className="TimeLineTitle text-xl text-white max320:text-[1rem]  ">
                 {item.title}
               </h3>
-              <p className="TimeLineYear text-[#ffc300] font-medium  max320:text-[0.8rem] ">
+              <p className="TimeLineYear text-[#ffc300] max320:text-[0.8rem] ">
                 {item.year}
               </p>
             </div>
@@ -203,7 +203,7 @@ const SkillsGainedSection = ({ isVisible }) => {
       transition={{ duration: 0.8 }}
       className="mt-20"
     >
-      <h3 className=" text-3xl sm:text-4xl font-bold text-center mb-12 text-white font-poppins">
+      <h3 className=" text-3xl sm:text-4xl text-center mb-12 text-white">
         Skills Gained During This Journey
         <span className="block w-20 h-1 bg-[#ffc300] mx-auto mt-4 rounded-full" />
       </h3>
@@ -221,7 +221,7 @@ const SkillsGainedSection = ({ isVisible }) => {
             <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">
               {skill.icon}
             </div>
-            <h4 className="text-xl font-semibold text-white mb-3 group-hover:text-[#ffc300] transition-colors duration-300">
+            <h4 className="text-xl text-white mb-3 group-hover:text-[#ffc300] transition-colors duration-300">
               {skill.skill}
             </h4>
             <p className="text-gray-300 text-sm leading-relaxed">
@@ -261,7 +261,7 @@ const Journey = () => {
   return (
     <section
       id="journey"
-      className={` JourneyMain relative w-full min-h-screen font-poppins py-16 sm:py-20 px-4 overflow-hidden max320:w-[100vw] max320:m-auto ${
+      className={` JourneyMain relative w-full min-h-screen py-16 sm:py-20 px-4 overflow-hidden max320:w-[100vw] max320:m-auto ${
         theme === "dark" ? "bg-black/10 text-white" : "bg-white/80 text-black"
       }`}
     >
@@ -275,15 +275,15 @@ const Journey = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-20"
         >
-          <h1 className="my-5 text-3xl sm:text-4xl lg:text-5xl font-semibold mb-8 sm:mb-12 text-center relative">
+          <h1 className="my-5 text-3xl sm:text-4xl lg:text-5xl mb-8 sm:mb-12 text-center relative">
             My Journey
             <span className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-20 sm:w-24 h-1 bg-[#ffc300] rounded-full"></span>
           </h1>
           <p
             className={
               theme === "dark"
-                ? "font-light text-sm sm:text-base lg:text-lg leading-relaxed text-gray-100"
-                : "font-light text-sm sm:text-base lg:text-lg leading-relaxed text-gray-800"
+                ? "text-sm sm:text-base lg:text-lg leading-relaxed text-gray-100"
+                : "text-sm sm:text-base lg:text-lg leading-relaxed text-gray-800"
             }
           >
             Every journey has its challenges, and mine taught me that sometimes
@@ -317,13 +317,13 @@ const Journey = () => {
           transition={{ duration: 0.8, delay: 0.5 }}
           className="mt-20 bg-gradient-to-r from-[#ffc300]/10 to-[#ffed4e]/10 border border-[#ffc300]/30 rounded-xl p-8 text-center"
         >
-          <h3 className="text-2xl sm:text-3xl font-semibold mb-6 text-[#ffc300]">
+          <h3 className="text-2xl sm:text-3xl mb-6 text-[#ffc300]">
             Why This Journey Matters
           </h3>
           <div
             className={`WhyJourney ${
               theme === "dark" ? "text-gray-300" : "text-gray-700"
-            }text-gray-300 text-lg leading-relaxed  max-w-4xl mx-auto space-y-4 font-poppins max320:text-[14px] `}
+            }text-gray-300 text-lg leading-relaxed  max-w-4xl mx-auto space-y-4 max320:text-[14px] `}
           >
             <p>
               The 4-year gap in my career wasn't a setback—it was a masterclass
@@ -338,7 +338,7 @@ const Journey = () => {
               experience I earned, and the resilience I built make me a stronger
               developer today.
             </p>
-            <p className="text-[#ffc300] font-semibold text-xl">
+            <p className="text-[#ffc300] text-xl">
               Now, I'm not just passionate about development—I'm equipped with
               real-world experience that most developers never get. I'm ready to
               bring this unique perspective to create amazing digital solutions.

@@ -11,7 +11,7 @@ const Toast = ({ show, message, theme }) => (
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 40 }}
-        className={`fixed bottom-8 left-1/2 transform -translate-x-1/2 px-6 py-3 rounded-full shadow-lg z-50 font-semibold ${theme === "dark" ? "bg-[#ffc300] text-black" : "bg-black text-[#ffc300]"}`}
+        className={`fixed bottom-8 left-1/2 transform -translate-x-1/2 px-6 py-3 rounded-full shadow-lg z-50 ${theme === "dark" ? "bg-[#ffc300] text-black" : "bg-black text-[#ffc300]"}`}
         role="status"
         aria-live="polite"
       >
@@ -46,7 +46,7 @@ const ContactPage = () => {
           initial={{ opacity: 0, y: -40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-4xl sm:text-5xl font-bold text-center mb-8"
+          className="text-4xl sm:text-5xl text-center mb-8"
           id="contact-heading"
         >
           Get in Touch
@@ -114,7 +114,7 @@ const ContactPage = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             type="submit"
-            className="w-full bg-[#ffc300] text-black font-semibold py-3 rounded-md hover:bg-yellow-400 transition focus:outline-none focus:ring-2 focus:ring-[#ffc300]"
+            className="w-full bg-[#ffc300] text-black py-3 rounded-md hover:bg-yellow-400 transition focus:outline-none focus:ring-2 focus:ring-[#ffc300]"
             aria-label="Send Message"
           >
             {submitted ? "Message Sent ✅" : "Send Message"}

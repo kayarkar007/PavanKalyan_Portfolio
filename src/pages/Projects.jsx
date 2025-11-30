@@ -78,7 +78,7 @@ const ProjectCard = ({ project, index, onView, theme }) => (
         {project.icon}
       </div>
       <div>
-        <h3 className={`ProjectTitle text-xl font-bold max320:text[1.1rem] ${theme === "dark" ? "text-white" : "text-black"}`}>{project.title}</h3>
+        <h3 className={`ProjectTitle text-xl max320:text[1.1rem] ${theme === "dark" ? "text-white" : "text-black"}`}>{project.title}</h3>
         <p className="text-[#ffc300] text-sm">{project.year}</p>
       </div>
     </div>
@@ -96,7 +96,7 @@ const ProjectCard = ({ project, index, onView, theme }) => (
     </div>
     <button
       onClick={() => onView(project)}
-      className="mt-2 px-4 py-2 bg-[#ffc300] text-black rounded-full font-semibold hover:bg-yellow-400 transition"
+      className="mt-2 px-4 py-2 bg-[#ffc300] text-black rounded-full hover:bg-yellow-400 transition"
       aria-label={`View details for ${project.title}`}
     >
       View Project
@@ -123,7 +123,7 @@ const ProjectModal = ({ project, onClose, theme }) => (
         >
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 text-gray-500 hover:text-black dark:hover:text-white text-2xl font-bold"
+            className="absolute top-4 right-4 text-gray-500 hover:text-black dark:hover:text-white text-2xl"
             aria-label="Close project details"
           >
             ×
@@ -131,7 +131,7 @@ const ProjectModal = ({ project, onClose, theme }) => (
           <div className="flex items-center gap-4 mb-4">
             <div className={`w-12 h-12 flex items-center justify-center text-2xl rounded-full bg-gradient-to-r ${project.color}`}>{project.icon}</div>
             <div>
-              <h3 className="text-2xl font-bold text-black dark:text-white">{project.title}</h3>
+              <h3 className="text-2xl text-black dark:text-white">{project.title}</h3>
               <p className="text-[#ffc300] text-sm">{project.year}</p>
             </div>
           </div>
@@ -165,7 +165,7 @@ const ProjectShowcase = () => {
   return (
     <section
       id="projects"
-      className={`relative w-full min-h-screen py-16 px-4 overflow-hidden ${theme === "dark" ? "bg-black/10 text-white" : "bg-white/80 text-black" }  font-poppins`}
+      className={`relative w-full min-h-screen py-16 px-4 overflow-hidden ${theme === "dark" ? "bg-black/10 text-white" : "bg-white/80 text-black" }`}
     >
       <FloatingParticles />
       <div className="relative z-10 max-w-6xl mx-auto">
@@ -175,9 +175,9 @@ const ProjectShowcase = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl sm:text-5xl font-bold font-poppins">My Projects</h2>
+          <h2 className="text-4xl sm:text-5xl">My Projects</h2>
           <span className="block w-20 h-1 bg-[#ffc300] mx-auto mt-4 rounded-full"></span>
-          <p className={`projectDis ${theme === "dark" ? "text-gray-300" : "text-gray-700"} text-gray-300 text-lg max-w-xl mx-auto mt-4 font-poppins max320:text-14px `}>
+          <p className={`projectDis ${theme === "dark" ? "text-gray-300" : "text-gray-700"} text-gray-300 text-lg max-w-xl mx-auto mt-4 max320:text-14px `}>
             Each project reflects my journey, skills, and creativity as a
             developer. Explore some of the work I'm proud of.
           </p>

@@ -93,12 +93,12 @@ const SkillBar = ({ skill, index, isVisible, theme }) => {
           <span
             className={`${
               theme === "dark" ? "text-white" : "text-black"
-            } font-medium text-sm sm:text-base`}
+            } text-sm sm:text-base`}
           >
             {skill.name}
           </span>
         </div>
-        <span className="text-[#ffc300] font-semibold text-sm">
+        <span className="text-[#ffc300] text-sm">
           {animatedLevel}%
         </span>
       </div>
@@ -146,7 +146,7 @@ const SkillCategory = ({ data, index, isVisible, theme }) => {
           {data.icon}
         </div>
         <h3
-          className={`text-xl sm:text-2xl font-semibold transition-colors duration-300 group-hover:text-[#ffc300] ${
+          className={`text-xl sm:text-2xl transition-colors duration-300 group-hover:text-[#ffc300] ${
             theme === "dark" ? "text-white" : "text-black"
           }`}
         >
@@ -197,7 +197,7 @@ const Skills = () => {
   return (
     <section
       id="skills"
-      className={`relative w-full min-h-screen font-poppins py-16 sm:py-20 px-4 overflow-hidden ${
+      className={`relative w-full min-h-screen py-16 sm:py-20 px-4 overflow-hidden ${
         theme === "dark" ? "bg-black/10 text-white" : "bg-white/80 text-black"
       }`}
     >
@@ -212,7 +212,7 @@ const Skills = () => {
           className="text-center mb-16"
         >
           <h1
-            className={`my-5 text-3xl sm:text-4xl lg:text-5xl font-semibold mb-8 sm:mb-12 text-center relative ${
+            className={`my-5 text-3xl sm:text-4xl lg:text-5xl mb-8 sm:mb-12 text-center relative ${
               theme === "dark" ? "text-white" : "text-black"
             }`}
           >
@@ -220,7 +220,7 @@ const Skills = () => {
             <span className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-20 sm:w-24 h-1 bg-[#ffc300] rounded-full"></span>
           </h1>
           <p
-            className={theme === "dark" ? "font-light text-sm sm:text-base lg:text-lg leading-relaxed text-gray-100" : "font-light text-sm sm:text-base lg:text-lg leading-relaxed text-gray-800"}
+            className={theme === "dark" ? "text-sm sm:text-base lg:text-lg leading-relaxed text-gray-100" : "text-sm sm:text-base lg:text-lg leading-relaxed text-gray-800"}
           >
             A comprehensive overview of my technical expertise and proficiency
             levels across various technologies and tools in web development.

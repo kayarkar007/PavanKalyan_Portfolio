@@ -32,11 +32,11 @@ const FloatingTag = React.memo(
           />
           <p
             id="text"
-            className="bounceContent_p relative text-gray-400 text-xs xs:text-sm sm:text-base md:text-lg font-medium"
+            className="bounceContent_p relative text-gray-400 text-xs xs:text-sm sm:text-base md:text-lg"
           >
             {text}{" "}
             <span
-              className={`font-semibold tracking-wide ${
+              className={`tracking-wide ${
                 theme === "dark" ? "text-white" : "text-black"
               }`}
             >
@@ -137,7 +137,7 @@ const AvailableSection = React.memo(() => {
             Available_for_work ? "bg-[#70e000]" : "bg-[#ff2e27]"
           } shadow-[0_0_10px_currentColor]`}
         />
-        <span className={`font-medium text-xs xs:text-sm ${
+        <span className={`text-xs xs:text-sm ${
           theme === "dark" ? "text-gray-300" : "text-gray-700"
         }`}>
           {Available_for_work ? "Available for work" : "Currently Unavailable"}
@@ -161,7 +161,7 @@ const Home = () => {
         <div className="flex flex-col items-center gap-4 sm:gap-6 md:gap-8 max-w-6xl mx-auto w-full">
           {/* Character Image + Name */}
           <div className="flex flex-col items-center w-full">
-            <h1 className="name-heading relative font-poppins font-bold leading-tight text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl z-10 w-full">
+            <h1 className="relative leading-tight text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl z-10 w-full">
               <FloatingTag
                 text="I'm a"
                 highlight="React Developer"
@@ -223,11 +223,11 @@ const Home = () => {
             transition={{ duration: 0.8, delay: 1.2 }}
             className="text-center max-w-xs xs:max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl px-4"
           >
-            <p className={`text-sm xs:text-base sm:text-lg md:text-xl pt-10 lg:text-2xl font-light leading-relaxed ${
+            <p className={`text-sm xs:text-base sm:text-lg md:text-xl pt-10 lg:text-2xl leading-relaxed ${
               theme === "dark" ? "text-gray-300" : "text-gray-600"
             }`}>
               Crafting digital experiences with{" "}
-              <span className="text-[#ffc300] font-semibold">
+              <span className="text-[#ffc300]">
                 passion and precision
               </span>
             </p>
