@@ -171,7 +171,7 @@ const Navbar = () => {
 
           {/* Resume */}
           <motion.a
-            href="/assets/PAVAN_KALYAN_KAYARKAR-RESUME.pdf"
+            href="/assets/PAVAN KALYAN KAYARKAR RESUME.pdf"
             download="Pavan_Kalyan_Kayarkar_Resume.pdf"
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
