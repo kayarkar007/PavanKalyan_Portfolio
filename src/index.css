@@ -1,71 +1,85 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
-
-/*
-  The following Tailwind directives require your build tool to process this file with Tailwind CSS.
-  If you see an "Unknown at rule @tailwind" error, make sure Tailwind is set up in your project.
-*/
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-html {
-  scroll-behavior: smooth;
-  scrollbar-width: none;
-}
-
-* {
-  margin: 0;
-  padding: 0;
+:root {
+  --primary: #ffc300;
+  --secondary: #000814;
+  --accent: #ffc300;
 }
 
 body {
-  font-family: "Poppins", sans-serif;
-  font-weight: 400;
+  font-family: 'Outfit', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #000;
+  color: #fff;
+  cursor: none; /* Hide default cursor to use custom one */
+  transition: background-color 0.5s ease, color 0.5s ease;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: "Poppins", sans-serif;
-  font-weight: 600;
+body.light {
+  background-color: #ffffff;
+  color: #0f172a;
 }
 
-p {
-  font-weight: 300;
-  line-height: 1.6;
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
 }
 
-h1 {
-  font-size: 2.5rem;
-  font-weight: 700;
+@layer utilities {
+  .glass {
+    @apply backdrop-blur-md transition-all duration-300;
+  }
+  .dark .glass {
+    @apply bg-white/5 border border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.1)];
+  }
+  .light .glass {
+    @apply bg-black/[0.03] border border-black/[0.08] shadow-[0_4px_30px_rgba(0,0,0,0.02)];
+  }
+  
+  .glass-dark {
+    @apply backdrop-blur-xl transition-all duration-300;
+  }
+  .dark .glass-dark {
+    @apply bg-black/40 border border-white/5;
+  }
+  .light .glass-dark {
+    @apply bg-white/60 border border-black/5;
+  }
+
+  .text-glow {
+    text-shadow: 0 0 10px rgba(255, 195, 0, 0.4);
+  }
+  /* Specific override for visible but subtle glass in light mode */
+  .light .glass-subtle {
+    @apply bg-slate-50/50 border border-slate-200/50;
+  }
 }
 
-h2 {
-  font-size: 2rem;
-  font-weight: 700;
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #000;
+}
+::-webkit-scrollbar-thumb {
+  background: #ffc30050;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #ffc300;
 }
 
-h3 {
-  font-size: 1.75rem;
-  font-weight: 600;
+/* Hide cursor only on desktop */
+@media (max-width: 768px) {
+  body {
+    cursor: auto;
+  }
 }
-
-h4 {
-  font-size: 1.5rem;
-  font-weight: 600;
-}
-
-h5 {
-  font-size: 1.25rem;
-  font-weight: 500;
-}
-
-h6 {
-  font-size: 1rem;
-  font-weight: 500;
-}
-

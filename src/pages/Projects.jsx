@@ -1,196 +1,162 @@
-// ProjectShowcase.jsx
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FloatingParticles } from "./Home";
+import { projects } from "../data/ProjectData";
 import { useTheme } from "../components/themeContext";
+import { ExternalLink, Github, Folder, Code2, Layers, ArrowUpRight } from "lucide-react";
+import Tilt from "../components/Tilt";
+import ProjectModal from "../components/ProjectModal";
 
-const projects = [{
-    title: "Advance Project Management App",
-    year: "2025",
-    description:
-      "A robust and scalable full-stack project management platform designed to streamline team collaboration, task tracking, and workflow automation.",
-    techStack: ["React","TailwindCSS","Node.js","Express.js","MongoDB","Mongoose","JWT","Multer","bcrypt"],
-    icon: "📊",
-    color: "from-pink-500 to-red-500",
-  },
-  {
-    title: "Advance Job Application Tracker",
-    year: "2025",
-    description:
-      "A full-featured, intelligent Job Application Tracker built to help job seekers efficiently manage, monitor, and optimize their job search process.",
-    techStack: ["React","TailwindCSS","Node.js","Express.js","MongoDB","Mongoose","JWT","Multer","bcrypt"],
-    icon: "💼",
-    color: "from-green-500 to-blue-500",
-  },
-  {
-    title: "Portfolio Website",
-    year: "2025",
-    description:
-      "A personal portfolio built with React and Tailwind CSS, featuring animations and a clean UI.",
-    techStack: ["React", "Tailwind", "Framer Motion","React Icons","Context API"],
-    icon: "🖥️",
-    color: "from-indigo-500 to-purple-600",
-  },
-  {
-    title: "E-commerce App",
-    year: "2024",
-    description:
-      "Developed a fully functional e-commerce app with product filters, cart, and checkout integration.",
-    techStack: ["React", "Node.js", "MongoDB"],
-    icon: "🛒",
-    color: "from-green-500 to-teal-500",
-  },
-  {
-    title: "Task Manager API",
-    year: "2024",
-    description:
-      "Built a RESTful API with JWT auth, user roles, and MongoDB integration for task management.",
-    techStack: ["Node.js", "Express", "MongoDB", "JWT"],
-    icon: "📋",
-    color: "from-yellow-500 to-orange-500",
-  },
-  {
-    title: "Blog Platform",
-    year: "2023",
-    description:
-      "A blogging platform with user authentication, markdown support, and comment features.",
-    techStack: ["Next.js", "Firebase", "Tailwind CSS"],
-    icon: "✍️",
-    color: "from-pink-500 to-red-500",
-  },
-  
-];
-
-const ProjectCard = ({ project, index, onView, theme }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 40 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.5, delay: index * 0.1 }}
-    whileHover={{ scale: 1.02 }}
-    viewport={{ once: true }}
-    className={`backdrop-blur-[1.5px] p-6 rounded-xl border transition duration-200 hover:border-[#ffc300]/60 
-      ${theme === "dark" ? "bg-black/20 border-gray-700" : "bg-white/80 border-gray-300"}`}
-  >
-    <div className="flex items-center gap-4 mb-4">
-      <div
-        className={`w-12 h-12 flex items-center justify-center text-2xl rounded-full bg-gradient-to-r ${project.color}`}
-      >
-        {project.icon}
-      </div>
-      <div>
-        <h3 className={`ProjectTitle text-xl max320:text[1.1rem] ${theme === "dark" ? "text-white" : "text-black"}`}>{project.title}</h3>
-        <p className="text-[#ffc300] text-sm">{project.year}</p>
-      </div>
-    </div>
-    <p className={`${theme === "dark" ? "text-gray-300" : "text-gray-700"} text-sm mb-4`}>{project.description}</p>
-    <div className="flex flex-wrap gap-2 mb-4">
-      {project.techStack.map((tech, i) => (
-        <span
-          key={i}
-          className={`text-xs px-2 py-1 rounded-full border 
-            ${theme === "dark" ? "bg-[#ffc300]/20 text-[#ffc300] border-[#ffc300]/30" : "bg-[#ffc300]/10 text-[#ffc300] border-[#ffc300]/40"}`}
-        >
-          {tech}
-        </span>
-      ))}
-    </div>
-    <button
-      onClick={() => onView(project)}
-      className="mt-2 px-4 py-2 bg-[#ffc300] text-black rounded-full hover:bg-yellow-400 transition"
-      aria-label={`View details for ${project.title}`}
-    >
-      View Project
-    </button>
-  </motion.div>
-);
-
-const ProjectModal = ({ project, onClose, theme }) => (
-  <AnimatePresence>
-    {project && (
+const ProjectCard = ({ project, index, onOpen }) => {
+  return (
+    <Tilt className="h-full">
       <motion.div
-        className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        onClick={onClose}
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: index * 0.1 }}
+        style={{ transformStyle: "preserve-3d" }}
+        className="group relative glass rounded-[2.5rem] border dark:border-white/5 border-black/10 overflow-hidden flex flex-col h-full cursor-pointer"
+        onClick={() => onOpen(project)}
       >
-        <motion.div
-          className={`rounded-xl p-8 max-w-lg w-full relative shadow-2xl ${theme === "dark" ? "bg-black text-white" : "bg-white text-black"}`}
-          initial={{ scale: 0.8, y: 100 }}
-          animate={{ scale: 1, y: 0 }}
-          exit={{ scale: 0.8, y: 100 }}
-          onClick={e => e.stopPropagation()}
-        >
-          <button
-            onClick={onClose}
-            className="absolute top-4 right-4 text-gray-500 hover:text-black dark:hover:text-white text-2xl"
-            aria-label="Close project details"
-          >
-            ×
-          </button>
-          <div className="flex items-center gap-4 mb-4">
-            <div className={`w-12 h-12 flex items-center justify-center text-2xl rounded-full bg-gradient-to-r ${project.color}`}>{project.icon}</div>
-            <div>
-              <h3 className="text-2xl text-black dark:text-white">{project.title}</h3>
-              <p className="text-[#ffc300] text-sm">{project.year}</p>
+        {/* Project Image / Visual */}
+        <div className="relative aspect-video overflow-hidden bg-gradient-to-br from-[#ffc300]/10 via-white/3 to-transparent" style={{ transform: "translateZ(50px)" }}>
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent z-10 opacity-60" />
+          <div className="flex items-center justify-center h-full">
+            <Folder className="w-16 h-16 text-[#ffc300]/20 group-hover:scale-110 transition-transform duration-700" />
+          </div>
+
+          {/* Hover Overlay */}
+          <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 flex items-center justify-center">
+            <div className="flex items-center gap-2 text-[#ffc300] font-black text-sm uppercase tracking-widest">
+              <ArrowUpRight className="w-5 h-5" /> View Details
             </div>
           </div>
-          <p className="text-gray-700 dark:text-gray-300 mb-4">{project.description}</p>
-          <div className="flex flex-wrap gap-2 mb-4">
-            {project.techStack.map((tech, i) => (
-              <span
-                key={i}
-                className={`text-xs px-2 py-1 rounded-full border ${
-                  theme === "dark"
-                    ? "bg-[#ffc300]/20 text-[#ffc300] border-[#ffc300]/30"
-                    : "bg-[#ffc300]/10 text-[#ffc300] border-[#ffc300]/40"
-                }`}
-              >
-                {tech}
+
+          {/* Category Tag */}
+          <div className="absolute top-6 left-6 z-30">
+            <span className="px-3 py-1 bg-black/50 backdrop-blur-md border border-white/10 rounded-full text-[10px] uppercase tracking-widest font-bold text-[#ffc300]">
+              {project.category}
+            </span>
+          </div>
+
+          {/* Live indicator */}
+          {project.link && project.link !== "#" && (
+            <div className="absolute top-6 right-6 z-30 flex items-center gap-1.5 px-2 py-1 bg-green-500/20 rounded-full">
+              <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+              <span className="text-[9px] font-bold text-green-400 uppercase tracking-wider">Live</span>
+            </div>
+          )}
+        </div>
+
+        {/* Content */}
+        <div className="p-8 flex flex-col flex-grow space-y-4" style={{ transform: "translateZ(30px)" }}>
+          <h3 className="text-xl font-bold dark:text-white text-slate-900 group-hover:text-[#ffc300] transition-colors">
+            {project.title}
+          </h3>
+          <p className="dark:text-gray-400 text-slate-600 text-sm leading-relaxed line-clamp-2">
+            {project.description}
+          </p>
+
+          <div className="flex flex-wrap gap-2 mt-auto pt-4">
+            {project.tech.slice(0, 4).map((t, idx) => (
+              <span key={idx} className="text-[10px] font-bold dark:text-gray-400 text-slate-500 dark:bg-white/5 bg-black/5 px-2 py-1 rounded-md uppercase tracking-tight">
+                {t}
               </span>
             ))}
+            {project.tech.length > 4 && (
+              <span className="text-[10px] font-bold text-[#ffc300]/60 px-2 py-1">
+                +{project.tech.length - 4} more
+              </span>
+            )}
           </div>
-          <div className="mb-4">
-            <span className="block text-gray-400 text-xs mb-2">Screenshots/Links coming soon...</span>
-          </div>
-        </motion.div>
-      </motion.div>
-    )}
-  </AnimatePresence>
-);
-
-const ProjectShowcase = () => {
-  const [selectedProject, setSelectedProject] = useState(null);
-  const { theme } = useTheme();
-  return (
-    <section
-      id="projects"
-      className={`relative w-full min-h-screen py-16 px-4 overflow-hidden ${theme === "dark" ? "bg-black/10 text-white" : "bg-white/80 text-black" }`}
-    >
-      <FloatingParticles />
-      <div className="relative z-10 max-w-6xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: -40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl sm:text-5xl">My Projects</h2>
-          <span className="block w-20 h-1 bg-[#ffc300] mx-auto mt-4 rounded-full"></span>
-          <p className={`projectDis ${theme === "dark" ? "text-gray-300" : "text-gray-700"} text-gray-300 text-lg max-w-xl mx-auto mt-4 max320:text-14px `}>
-            Each project reflects my journey, skills, and creativity as a
-            developer. Explore some of the work I'm proud of.
-          </p>
-        </motion.div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">
-          {projects.map((project, index) => (
-            <ProjectCard key={project.title} project={project} index={index} onView={setSelectedProject} theme={theme} />
-          ))}
         </div>
-        <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} theme={theme} />
+      </motion.div>
+    </Tilt>
+  );
+};
+
+const Projects = () => {
+  const [filter, setFilter] = useState("All");
+  const [selectedProject, setSelectedProject] = useState(null);
+
+  const categories = ["All", ...new Set(projects.map(p => p.category))];
+  const filteredProjects = filter === "All" ? projects : projects.filter(p => p.category === filter);
+
+  return (
+    <section id="projects" className="w-full min-h-screen py-24 px-6">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+          <div className="space-y-4 text-left">
+            <h3 className="text-[#ffc300] font-medium tracking-widest uppercase text-sm flex items-center gap-2">
+              <Layers className="w-4 h-4" /> Selected Works
+            </h3>
+            <h2 className="text-4xl md:text-5xl font-bold dark:text-white text-slate-900">
+              Featured <span className="dark:text-white/50 text-slate-900/50">Projects</span>
+            </h2>
+            <p className="dark:text-gray-400 text-slate-500 text-sm max-w-lg">
+              Click any card to see full details, tech stack, and highlights.
+            </p>
+          </div>
+
+          {/* Filter Tabs */}
+          <div className="flex flex-wrap gap-2 glass p-1.5 rounded-2xl border border-white/5">
+            {categories.map(cat => (
+              <button
+                key={cat}
+                onClick={() => setFilter(cat)}
+                className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all uppercase tracking-wider ${
+                  filter === cat
+                    ? "bg-[#ffc300] text-black shadow-[0_0_15px_rgba(255,195,0,0.3)]"
+                    : "text-gray-500 dark:hover:text-white hover:text-slate-900"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+          <AnimatePresence>
+            {filteredProjects.map((project, idx) => (
+              <ProjectCard
+                key={project.id}
+                project={project}
+                index={idx}
+                onOpen={setSelectedProject}
+              />
+            ))}
+          </AnimatePresence>
+        </motion.div>
+
+        {/* Bottom CTA */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          className="mt-24 text-center p-12 glass rounded-[3rem] border dark:border-white/5 border-black/10"
+        >
+          <Code2 className="w-12 h-12 text-[#ffc300] mx-auto mb-6" />
+          <h4 className="text-2xl font-bold dark:text-white text-slate-900 mb-4">Want to see more?</h4>
+          <p className="dark:text-gray-400 text-slate-500 mb-8 max-w-lg mx-auto text-sm">
+            I'm constantly building and experimenting. Check out my GitHub for more projects and open-source contributions.
+          </p>
+          <a
+            href="https://github.com/kayarkar007"
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 px-8 py-4 glass border border-white/10 hover:border-[#ffc300]/50 rounded-2xl font-bold transition-all hover:scale-105 text-sm"
+          >
+            <Github className="w-5 h-5" /> Visit GitHub Profile
+          </a>
+        </motion.div>
       </div>
+
+      {/* Project Detail Modal */}
+      {selectedProject && (
+        <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
+      )}
     </section>
   );
 };
 
-export default ProjectShowcase;
+export default Projects;

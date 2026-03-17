@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import About from "./pages/About";
@@ -6,134 +7,98 @@ import Skills from "./pages/Skills";
 import Journey from "./pages/Journey";
 import ProjectShowcase from "./pages/Projects";
 import ContactPage from "./pages/Contact";
+import Testimonials from "./pages/Testimonials";
+import NotFound from "./pages/NotFound";
 import Footer from "./components/Footer";
+import DynamicBackground from "./components/DynamicBackground";
+import Scene3D from "./components/Scene3D";
+import CustomCursor from "./components/CustomCursor";
+import Preloader from "./components/Preloader";
 import { useTheme } from "./components/themeContext";
 
-/* Scroll CTA */
-export const Scroll = ({ section, refId }) => {
-  return (
-    <a
-      href={`#${refId}`}
-      className="
-        group
-        relative
-        flex items-center justify-between
-        min-w-[19%] min-h-[8%]
-        px-4 py-2
-        rounded-full
-        mt-10
-        text-sm text-gray-300
-        hover:text-yellow-400
-        transition-all duration-300
-        cursor-pointer
-        backdrop-blur-xl bg-white/5 border border-white/10
-        hover:bg-white/10 hover:border-yellow-400/40
-      "
-    >
-      <img
-        src="assets/arrow_downward_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg"
-        alt="scroll down"
-        className="
-          w-6 h-6 pt-1 
-          transition-transform duration-300
-          group-hover:translate-y-1
-        "
-      />
-
-      <span className="font-medium text-lg text-gray-400 group-hover:text-yellow-400 transition-colors duration-300">
-        Scroll to <span className="font-semibold text-[#ffc300]">{section}</span>
-      </span>
-    </a>
-  );
-};
-
-
-/* Scroll To Top */
+/* Scroll To Top Button */
 const ScrollToTop = () => {
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = React.useState(false);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const onScroll = () => setVisible(window.scrollY > 250);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const scrollToTop = () =>
-    window.scrollTo({ top: 0, behavior: "smooth" });
-
   if (!visible) return null;
 
   return (
     <button
-      onClick={scrollToTop}
+      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
       aria-label="Scroll to top"
-      className="
-        fixed bottom-8 right-8 
-        z-[60]
-        p-3 
-        rounded-full 
-        bg-[#ffc300] 
-        text-black 
-        shadow-lg 
-        hover:bg-yellow-400 
-        transition-all 
-        animate-bounce
-      "
+      className="fixed bottom-8 right-8 z-[60] p-4 rounded-full bg-[#ffc300] text-black shadow-[0_0_20px_rgba(255,195,0,0.4)] hover:bg-yellow-400 transition-all duration-300 hover:scale-110 active:scale-95"
     >
-      ↑
+      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+      </svg>
     </button>
   );
 };
 
-/* App Layout */
-const App = () => {
+/* One-page Portfolio layout */
+const PortfolioLayout = () => {
   const { theme } = useTheme();
+  const [loaded, setLoaded] = React.useState(false);
 
   return (
-    <div
-      className={`
-        relative 
-        w-full min-h-screen 
-        flex flex-col 
-        scroll-smooth 
-         overflow-x-hidden
-        ${theme === "dark" ? "bg-black text-white" : "bg-white text-black"}
-      `}
-    >
-      {/* Background */}
-      <img
-        src="assets/freepik__background__48609.png"
-        alt="background"
-        className="
-          fixed inset-0 
-          w-full h-full 
-          object-cover 
-          opacity-40 
-          z-0
-          pointer-events-none
-        "
-      />
+    <>
+      {!loaded && <Preloader onComplete={() => setLoaded(true)} />}
+      <div className={`relative w-full min-h-screen font-outfit ${theme === "dark" ? "bg-black text-white" : "bg-white text-black"}`}>
+        <CustomCursor />
+        <DynamicBackground />
+        <Scene3D />
 
-      {/* Navbar */}
-      <Navbar />
+        <Navbar />
 
-      {/* Sections */}
-      <main className="relative z-10 flex flex-col items-center w-full">
-        <Home />
-        <About />
-        <Skills />
-        <Journey />
-        <ProjectShowcase />
-        <ContactPage />
-      </main>
+        <div className="relative z-10 pointer-events-none">
+          <main className="flex flex-col items-center w-full pointer-events-auto">
+            <section id="home" className="w-full min-h-screen">
+              <Home />
+            </section>
+            <section id="about" className="w-full min-h-screen flex items-center justify-center">
+              <About />
+            </section>
+            <section id="skills" className="w-full min-h-screen flex items-center justify-center">
+              <Skills />
+            </section>
+            <section id="journey" className="w-full min-h-screen flex items-center justify-center">
+              <Journey />
+            </section>
+            <section id="projects" className="w-full min-h-screen flex items-center justify-center">
+              <ProjectShowcase />
+            </section>
+            {/* Testimonials section (between projects and contact) */}
+            <section className="w-full flex items-center justify-center">
+              <Testimonials />
+            </section>
+            <section id="contact" className="w-full min-h-screen flex items-center justify-center">
+              <ContactPage />
+            </section>
+          </main>
 
-      {/* Footer */}
-      <Footer />
+          <Footer />
+        </div>
 
-      {/* Utilities */}
-      <ScrollToTop />
-    </div>
+        <ScrollToTop />
+      </div>
+    </>
   );
 };
+
+/* App with routing */
+const App = () => (
+  <Router>
+    <Routes>
+      <Route path="/" element={<PortfolioLayout />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  </Router>
+);
 
 export default App;
