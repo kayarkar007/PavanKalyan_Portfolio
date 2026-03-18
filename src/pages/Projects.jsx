@@ -1,77 +1,117 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { projects } from "../data/ProjectData";
 import { useTheme } from "../components/themeContext";
 import { ExternalLink, Github, Folder, Code2, Layers, ArrowUpRight } from "lucide-react";
 import Tilt from "../components/Tilt";
 import ProjectModal from "../components/ProjectModal";
+import Reveal from "../components/Reveal";
+
+const GeometricNodes = () => {
+    const nodes = useMemo(() => Array.from({ length: 10 }, (_, i) => ({
+        id: i,
+        size: Math.random() * 4 + 1,
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+    })), []);
+
+    return (
+        <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-10 dark:opacity-20 transition-colors">
+            {nodes.map((node) => (
+                <motion.div
+                    key={node.id}
+                    className="absolute rounded-full bg-[#ffc300]"
+                    style={{
+                        width: node.size,
+                        height: node.size,
+                        left: `${node.x}%`,
+                        top: `${node.y}%`,
+                        filter: "blur(0.5px)",
+                    }}
+                    animate={{
+                        y: [0, -40, 0],
+                        opacity: [0.1, 0.3, 0.1],
+                    }}
+                    transition={{
+                        duration: 5 + Math.random() * 3,
+                        repeat: Infinity,
+                        ease: "linear"
+                    }}
+                />
+            ))}
+        </div>
+    );
+};
 
 const ProjectCard = ({ project, index, onOpen }) => {
   return (
-    <Tilt className="h-full">
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: index * 0.1 }}
-        style={{ transformStyle: "preserve-3d" }}
-        className="group relative glass rounded-[2.5rem] border dark:border-white/5 border-black/10 overflow-hidden flex flex-col h-full cursor-pointer"
-        onClick={() => onOpen(project)}
-      >
-        {/* Project Image / Visual */}
-        <div className="relative aspect-video overflow-hidden bg-gradient-to-br from-[#ffc300]/10 via-white/3 to-transparent" style={{ transform: "translateZ(50px)" }}>
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent z-10 opacity-60" />
-          <div className="flex items-center justify-center h-full">
-            <Folder className="w-16 h-16 text-[#ffc300]/20 group-hover:scale-110 transition-transform duration-700" />
-          </div>
-
-          {/* Hover Overlay */}
-          <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 flex items-center justify-center">
-            <div className="flex items-center gap-2 text-[#ffc300] font-black text-sm uppercase tracking-widest">
-              <ArrowUpRight className="w-5 h-5" /> View Details
+    <Reveal direction="up" delay={index * 0.1}>
+      <Tilt className="h-full">
+        <motion.div
+            style={{ transformStyle: "preserve-3d" }}
+            className="group relative glass rounded-[2.5rem] border dark:border-white/5 border-black/10 overflow-hidden flex flex-col h-full cursor-pointer shadow-xl dark:shadow-none"
+            onClick={() => onOpen(project)}
+        >
+            {/* Shimmer Effect */}
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500 pointer-events-none z-30">
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent -skew-x-12 animate-shimmer" />
             </div>
-          </div>
 
-          {/* Category Tag */}
-          <div className="absolute top-6 left-6 z-30">
-            <span className="px-3 py-1 bg-black/50 backdrop-blur-md border border-white/10 rounded-full text-[10px] uppercase tracking-widest font-bold text-[#ffc300]">
-              {project.category}
-            </span>
-          </div>
-
-          {/* Live indicator */}
-          {project.link && project.link !== "#" && (
-            <div className="absolute top-6 right-6 z-30 flex items-center gap-1.5 px-2 py-1 bg-green-500/20 rounded-full">
-              <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-              <span className="text-[9px] font-bold text-green-400 uppercase tracking-wider">Live</span>
+            {/* Project Image / Visual */}
+            <div className="relative aspect-video overflow-hidden bg-gradient-to-br from-[#ffc300]/10 via-white/3 to-transparent" style={{ transform: "translateZ(50px)" }}>
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent z-10 opacity-60" />
+            <div className="flex items-center justify-center h-full">
+                <Folder className="w-16 h-16 text-[#ffc300]/20 group-hover:scale-110 transition-transform duration-700" />
             </div>
-          )}
-        </div>
 
-        {/* Content */}
-        <div className="p-8 flex flex-col flex-grow space-y-4" style={{ transform: "translateZ(30px)" }}>
-          <h3 className="text-xl font-bold dark:text-white text-slate-900 group-hover:text-[#ffc300] transition-colors">
-            {project.title}
-          </h3>
-          <p className="dark:text-gray-400 text-slate-600 text-sm leading-relaxed line-clamp-2">
-            {project.description}
-          </p>
+            {/* Hover Overlay */}
+            <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 flex items-center justify-center">
+                <div className="flex items-center gap-2 text-[#ffc300] font-black text-sm uppercase tracking-widest">
+                <ArrowUpRight className="w-5 h-5" /> View Details
+                </div>
+            </div>
 
-          <div className="flex flex-wrap gap-2 mt-auto pt-4">
-            {project.tech.slice(0, 4).map((t, idx) => (
-              <span key={idx} className="text-[10px] font-bold dark:text-gray-400 text-slate-500 dark:bg-white/5 bg-black/5 px-2 py-1 rounded-md uppercase tracking-tight">
-                {t}
-              </span>
-            ))}
-            {project.tech.length > 4 && (
-              <span className="text-[10px] font-bold text-[#ffc300]/60 px-2 py-1">
-                +{project.tech.length - 4} more
-              </span>
+            {/* Category Tag */}
+            <div className="absolute top-6 left-6 z-30">
+                <span className="px-3 py-1 bg-black/50 backdrop-blur-md border border-white/10 rounded-full text-[10px] uppercase tracking-widest font-bold text-[#ffc300]">
+                {project.category}
+                </span>
+            </div>
+
+            {/* Live indicator */}
+            {project.link && project.link !== "#" && (
+                <div className="absolute top-6 right-6 z-30 flex items-center gap-1.5 px-2 py-1 bg-green-500/20 rounded-full">
+                <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+                <span className="text-[9px] font-bold text-green-400 uppercase tracking-wider">Live</span>
+                </div>
             )}
-          </div>
-        </div>
-      </motion.div>
-    </Tilt>
+            </div>
+
+            {/* Content */}
+            <div className="p-8 flex flex-col flex-grow space-y-4" style={{ transform: "translateZ(30px)" }}>
+            <h3 className="text-xl font-bold dark:text-white text-slate-900 group-hover:text-[#ffc300] transition-colors">
+                {project.title}
+            </h3>
+            <p className="dark:text-gray-400 text-slate-600 text-sm leading-relaxed line-clamp-2">
+                {project.description}
+            </p>
+
+            <div className="flex flex-wrap gap-2 mt-auto pt-4">
+                {project.tech.slice(0, 4).map((t, idx) => (
+                <span key={idx} className="text-[10px] font-bold dark:text-gray-400 text-slate-500 dark:bg-white/5 bg-black/5 px-2 py-1 rounded-md uppercase tracking-tight">
+                    {t}
+                </span>
+                ))}
+                {project.tech.length > 4 && (
+                <span className="text-[10px] font-bold text-[#ffc300]/60 px-2 py-1">
+                    +{project.tech.length - 4} more
+                </span>
+                )}
+            </div>
+            </div>
+        </motion.div>
+      </Tilt>
+    </Reveal>
   );
 };
 
@@ -83,19 +123,26 @@ const Projects = () => {
   const filteredProjects = filter === "All" ? projects : projects.filter(p => p.category === filter);
 
   return (
-    <section id="projects" className="w-full min-h-screen py-24 px-6">
-      <div className="max-w-7xl mx-auto">
+    <section id="projects" className="w-full min-h-screen py-24 px-6 relative overflow-hidden">
+      <GeometricNodes />
+      <div className="max-w-7xl mx-auto relative z-10">
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
           <div className="space-y-4 text-left">
-            <h3 className="text-[#ffc300] font-medium tracking-widest uppercase text-sm flex items-center gap-2">
-              <Layers className="w-4 h-4" /> Selected Works
-            </h3>
-            <h2 className="text-4xl md:text-5xl font-bold dark:text-white text-slate-900">
-              Featured <span className="dark:text-white/50 text-slate-900/50">Projects</span>
-            </h2>
-            <p className="dark:text-gray-400 text-slate-500 text-sm max-w-lg">
-              Click any card to see full details, tech stack, and highlights.
-            </p>
+            <Reveal direction="left">
+                <h3 className="text-[#ffc300] font-black tracking-widest uppercase text-xs flex items-center gap-2">
+                <Layers className="w-4 h-4" /> Selected Works
+                </h3>
+            </Reveal>
+            <Reveal direction="left" delay={0.2}>
+                <h2 className="text-4xl md:text-5xl font-extrabold dark:text-white text-slate-900">
+                Featured <span className="dark:text-white/50 text-slate-400">Projects</span>
+                </h2>
+            </Reveal>
+            <Reveal direction="left" delay={0.4}>
+                <p className="dark:text-gray-400 text-slate-600 text-sm max-w-lg font-medium">
+                Click any card to see full details, tech stack, and highlights.
+                </p>
+            </Reveal>
           </div>
 
           {/* Filter Tabs */}

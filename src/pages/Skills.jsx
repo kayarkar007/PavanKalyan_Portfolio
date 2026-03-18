@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { motion } from "framer-motion";
 import { skills } from "../data/ProjectData";
 import { useTheme } from "../components/themeContext";
 import { Cpu, Layout, Database, Terminal, Zap, GitBranch, Globe } from "lucide-react";
 import Tilt from "../components/Tilt";
+import Reveal from "../components/Reveal";
 
 const SkillBar = ({ skill, idx }) => (
   <div className="space-y-1.5">
@@ -29,6 +30,43 @@ const SkillChip = ({ name }) => (
   </span>
 );
 
+const GeometricNodes = () => {
+    const nodes = useMemo(() => Array.from({ length: 12 }, (_, i) => ({
+        id: i,
+        size: Math.random() * 3 + 1,
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+        delay: Math.random() * 5
+    })), []);
+
+    return (
+        <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-20 transition-colors">
+            {nodes.map((node) => (
+                <motion.div
+                    key={node.id}
+                    className="absolute rounded-full bg-[#ffc300]"
+                    style={{
+                        width: node.size,
+                        height: node.size,
+                        left: `${node.x}%`,
+                        top: `${node.y}%`,
+                    }}
+                    animate={{
+                        opacity: [0.1, 0.4, 0.1],
+                        scale: [1, 1.5, 1],
+                    }}
+                    transition={{
+                        duration: 3 + Math.random() * 2,
+                        repeat: Infinity,
+                        delay: node.delay,
+                        ease: "linear"
+                    }}
+                />
+            ))}
+        </div>
+    );
+};
+
 const Skills = () => {
   const { theme } = useTheme();
 
@@ -43,13 +81,18 @@ const Skills = () => {
   const BAR_LIMIT = 5; // first N skills show progress bars, rest show chips
 
   return (
-    <section id="skills" className="w-full min-h-screen py-24 px-6 relative">
-      <div className="max-w-7xl mx-auto">
+    <section id="skills" className="w-full min-h-screen py-24 px-6 relative overflow-hidden">
+      <GeometricNodes />
+      <div className="max-w-7xl mx-auto relative z-10">
         <div className="flex flex-col items-center text-center mb-16 space-y-4">
-          <h3 className="text-[#ffc300] font-medium tracking-widest uppercase text-sm">Technical Stack</h3>
-          <h2 className="text-4xl md:text-5xl font-bold dark:text-white text-slate-900">
-            Skills &amp; <span className="dark:text-white/50 text-slate-900/50">Expertise</span>
-          </h2>
+          <Reveal direction="down">
+              <h3 className="text-[#ffc300] font-bold tracking-widest uppercase text-xs">Technical Stack</h3>
+          </Reveal>
+          <Reveal direction="up" delay={0.2}>
+              <h2 className="text-4xl md:text-5xl font-extrabold dark:text-white text-slate-900">
+                Skills & <span className="dark:text-white/50 text-slate-400">Expertise</span>
+              </h2>
+          </Reveal>
           <p className="dark:text-gray-400 text-slate-600 max-w-xl text-sm leading-relaxed">
             A curated selection of tools, frameworks and technologies I work with daily to build production-grade applications.
           </p>
@@ -65,17 +108,19 @@ const Skills = () => {
             const chipSkills = catSkills.slice(BAR_LIMIT);
 
             return (
-              <Tilt key={cat.id} className="h-full">
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: idx * 0.1 }}
-                  style={{ transformStyle: "preserve-3d" }}
-                  className="glass p-8 rounded-[2rem] border dark:border-white/8 border-black/10 relative group overflow-hidden h-full flex flex-col gap-6"
-                >
-                  {/* Hover glow */}
-                  <div className={`absolute top-0 right-0 w-40 h-40 ${cat.color} blur-[70px] opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+              <Reveal key={cat.id} direction="up" delay={idx * 0.1}>
+                <Tilt className="h-full">
+                  <motion.div
+                    style={{ transformStyle: "preserve-3d" }}
+                    className="glass p-8 rounded-[2rem] border dark:border-white/8 border-black/10 relative group overflow-hidden h-full flex flex-col gap-6"
+                  >
+                    {/* Shimmer Effect */}
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500 pointer-events-none z-30">
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent -skew-x-12 animate-shimmer" />
+                    </div>
+
+                    {/* Hover glow */}
+                    <div className={`absolute top-0 right-0 w-40 h-40 ${cat.color} blur-[70px] opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
 
                   {/* Header */}
                   <div className="flex items-center gap-4 relative z-10" style={{ transform: "translateZ(30px)" }}>
@@ -105,6 +150,7 @@ const Skills = () => {
                   )}
                 </motion.div>
               </Tilt>
+            </Reveal>
             );
           })}
         </div>

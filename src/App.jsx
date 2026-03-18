@@ -15,6 +15,7 @@ import Scene3D from "./components/Scene3D";
 import CustomCursor from "./components/CustomCursor";
 import Preloader from "./components/Preloader";
 import { useTheme } from "./components/themeContext";
+import CursorTrail from "./components/CursorTrail";
 
 /* Scroll To Top Button */
 const ScrollToTop = () => {
@@ -51,6 +52,7 @@ const PortfolioLayout = () => {
       {!loaded && <Preloader onComplete={() => setLoaded(true)} />}
       <div className={`relative w-full min-h-screen font-outfit ${theme === "dark" ? "bg-black text-white" : "bg-white text-black"}`}>
         <CustomCursor />
+        <CursorTrail />
         <DynamicBackground />
         <Scene3D />
 

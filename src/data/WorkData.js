@@ -24,3 +24,25 @@ export const workExperience = [
     ]
   }
 ];
+
+export const education = [
+  {
+    title: "Bachelor of Technology – Computer Science & Engineering",
+    institution: "Jawaharlal Nehru Technological University Hyderabad",
+    year: "2020",
+    stats: "CGPA: 6.4"
+  },
+  {
+    title: "Senior Secondary (MPC)",
+    institution: "Narayana Junior College",
+    year: "2016",
+    stats: "89.7%"
+  }
+];
+
+export const certifications = [
+  "Full Stack Web Development with MERN Stack & GenAI – Udemy (2025)",
+  "HackerRank: Node.js (Intermediate), JavaScript (Intermediate), REST API (Intermediate)",
+  "Web Development with MERN Stack – TuteDude (2025)",
+  "Data Analytics Job Simulation – Deloitte Australia (2025)"
+];
