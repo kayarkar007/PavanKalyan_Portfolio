@@ -1,51 +1,63 @@
-# Pavan Kalyan Kayarkar - Portfolio
+# Pavan Kalyan Kayarkar - Portfolio 🚀
 
-Welcome to my personal portfolio website! This project showcases my skills, projects, and journey as a React and Full Stack Developer. Built with React, Vite, Tailwind CSS, and Framer Motion, the site features smooth animations, a modern UI, and a responsive design.
+A high-performance, visually stunning personal portfolio showcasing advanced frontend development skills. Built with a focus on immersive 3D experiences, smooth motion design, and production-grade SEO.
 
-## 🚀 Features
+Live at: [pavan-kalyan-portfolio-eta.vercel.app](https://pavan-kalyan-portfolio-eta.vercel.app)
 
-- **Animated Navbar** with smooth scroll and theme toggle (light/dark)
-- **Home Section** with dynamic floating tags and animated particles
-- **About, Skills, Journey, Projects, and Contact** sections
-- **Project Showcase** with interactive cards and tech stack highlights
-- **Responsive Design** for all devices
-- **Framer Motion** for beautiful transitions and effects
-- **Custom Theme Context** for light/dark mode
-- **Downloadable Resume** button
-- **Footer** with social links and animated SVG wave
+## 💎 Key Features
+
+- **Immersive 3D Geometry**: Custom-built, performance-optimized Three.js icosahedron system with holographic core.
+- **Micro-Animations**: Staggered scroll-reveals, magnetic hover effects, and fluid transitions powered by GSAP and Framer Motion.
+- **Interactive Cursor**: High-performance Canvas-based particle trail system.
+- **Production-Grade SEO**: Automated meta tags, JSON-LD structured data, and Open Graph optimization.
+- **Theme synchronization**: Seamless Light/Dark mode transitions with optimized contrast for readability.
+- **Modern UI**: Polished glassmorphism principles and a mobile-first responsive layout.
 
 ## 🛠️ Tech Stack
 
-- **React** (with Vite)
-- **Tailwind CSS**
-- **Framer Motion**
-- **React Icons**
-- **Context API** (for theme management)
+- **Core**: React 18, Vite
+- **Styling**: Tailwind CSS
+- **Animations**: Framer Motion, GSAP
+- **3D Engine**: Three.js (React Three Fiber)
+- **Icons**: Lucide React
+- **Metadata/SEO**: React Helmet / JSON-LD
 
 ## 📦 Getting Started
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/yourusername/your-portfolio.git
-   cd your-portfolio
-   ```
+### Prerequisites
+- Node.js (v18+)
+- npm or yarn
 
-2. **Install dependencies:**
+### Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/kayarkar007/PavanKalyan_Portfolio.git
+   ```
+2. Install dependencies:
    ```bash
    npm install
    ```
-
-3. **Start the development server:**
+3. Run Development Server:
    ```bash
    npm run dev
    ```
 
-4. **Open in your browser:**
-   Visit [http://localhost:5173](http://localhost:5173)
+## 🏗️ Project Structure
+```text
+src/
+├── components/   # Reusable UI & 3D components
+├── pages/        # Main layout sections
+├── data/         # Centralized content management
+└── theme/        # Context-based theme system
+```
 
-## 🖼️ Screenshots
+## 🛡️ Security & Environment
+This project uses placeholder keys for **EmailJS**. To enable the contact form, please create a `.env` file with your credentials:
+```env
+VITE_EMAILJS_SERVICE_ID=your_service_id
+VITE_EMAILJS_TEMPLATE_ID=your_template_id
+VITE_EMAILJS_PUBLIC_KEY=your_public_key
+```
 
-![Home Section](assets/screenshot-home.png)
-![Projects Section](assets/screenshot-projects.png)
-
-## 📁 Project Structure
+---
+Designed & Developed by **Pavan Kalyan Kayarkar**
